@@ -14,12 +14,6 @@ module.exports = {
     ]
   },
   /*
-  ** Customize env
-  */
-  env: {
-    apiUrl: process.env.API || 'http://10.1.64.194/changping-internal'
-  },
-  /*
   ** Customize the progress-bar color
   */
   loading: { color: '#3B8070' },
@@ -30,7 +24,7 @@ module.exports = {
     /*
     ** Run ESLINT on save
     */
-    extend(config, ctx) {
+    extend (config, ctx) {
       if (ctx.dev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',

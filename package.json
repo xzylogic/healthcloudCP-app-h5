@@ -4,18 +4,12 @@
   "description": "Nuxt.js project",
   "author": "VioletQQY <forviolet771@gmail.com>",
   "private": true,
-  "config": {
-    "nuxt": {
-      "port": "3008",
-      "API": "http://10.1.64.194/changping-internal"
-    }
-  },
   "scripts": {
-    "start": "nuxt",
+    "start": "PORT=3008 nuxt start",
     "build": "nuxt build",
-    "prod": "PORT=3008 API='http://10.1.64.194/changping-internal' nuxt start",
-    "dev": "PORT=3008 API='http://10.1.64.194/changping-internal' nuxt start",
-    "test": "PORT=3008 API='http://10.1.64.195/changping-internal' nuxt start",
+    "prod": "PORT=3008 nuxt start",
+    "dev": "PORT=3008 nuxt start",
+    "test": "PORT=3008 nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"

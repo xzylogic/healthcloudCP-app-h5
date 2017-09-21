@@ -18,16 +18,11 @@
       return {
         title: '',
         date: '',
-        content: ''
-      }
-    },
-    asyncData (context) {
-      return {
-        apiUrl: context.env.apiUrl
+        content: '',
+        apiUrl: 'http://10.1.64.194/changping-internal'
       }
     },
     created () {
-      console.log(this.apiUrl)
       axios.get(`${this.apiUrl}/api/article/info?id=${this.$route.params.id}`)
         .then(res => {
           if (res && res.data && res.data.code === 0 && res.data.data) {
