@@ -19,7 +19,7 @@
         title: '',
         date: '',
         content: '',
-        apiUrl: 'http://10.1.64.194/changping-internal'
+        apiUrl: 'http://10.1.64.195/changping-internal'
       }
     },
     created () {
