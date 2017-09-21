@@ -5,11 +5,11 @@
   "author": "VioletQQY <forviolet771@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "PORT=3008 nuxt start",
+    "start": "HOST=0.0.0.0 PORT=3008 nuxt start",
     "build": "nuxt build",
-    "prod": "PORT=3008 nuxt start",
-    "dev": "PORT=3008 nuxt start",
-    "test": "PORT=3008 nuxt start",
+    "prod": "HOST=0.0.0.0 PORT=3008 nuxt start",
+    "dev": "HOST=0.0.0.0 PORT=3008 nuxt start",
+    "test": "HOST=0.0.0.0 PORT=3008 nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
