@@ -13,6 +13,9 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  router: {
+    base: '/healthcloudcp-app-h5/'
+  },
   /*
   ** Customize the progress-bar color
   */
