@@ -23,7 +23,7 @@
       }
     },
     created () {
-      axios.get(`${this.apiUrl}/api/article/info?id=${this.$route.params.id}`)
+      axios.get(`${this.apiUrl}/api/article/info?id=${this.$route.params.id}&source=h5`)
         .then(res => {
           if (res && res.data && res.data.code === 0 && res.data.data) {
             this.title = res.data.data.title || ''
