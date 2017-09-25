@@ -14,8 +14,12 @@ module.exports = {
     ]
   },
   router: {
-    base: '/healthcloudcp-app-h5/'
+    base: '/healthcloudcp-app-h5-te/'
   },
+  env: {
+    baseUrl: 'http://10.1.64.195/changping-internal'
+  },
+  plugins: ['~plugins/axios'],
   /*
   ** Customize the progress-bar color
   */
