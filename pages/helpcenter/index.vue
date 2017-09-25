@@ -2,7 +2,7 @@
   <div id="helpcenter">
     <div class="wrap">
       <ul class="accordion">
-        <li v-for="item in list">
+        <li v-for="item in list" :key="item.title">
           <div class="question clear" @click="toggle(item)">
             <span class="wen">{{item.title}}</span>
             <i class="fa fa-angle-down" aria-hidden="true" v-bind:class="{ active: item.open }"></i>
