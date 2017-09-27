@@ -103,7 +103,7 @@
       <span class="s3">2.4 </span>
       <span class="s2">昌平区卫生计生委保留随时修改或中断服务而不需通知您的权利。昌平区卫生计生委有权行使修改或中断服务的权利，不需对您或任何无直接关系的第三方负责。</span>
     </p>
-    <p class="p3">
+    <p class="p2">
       <span class="s3">2.5 </span>
       <span class="s2">昌平区卫生计生委
         <strong>可以依其对判断暂时停止提供、限制或改变昌平健康云的服务，只要您仍然使用昌平健康云服务，即表示您仍然同意本服务协议。</strong>
@@ -538,10 +538,27 @@
     font-size: 18px;
     font-weight: 700;
     text-align: center;
-    padding: 0 8px 16px;
+    padding-bottom: 16px;
   }
 
-  .container .p2 {
+  .container .p2,
+  .container .p4,
+  .container .ul1,
+  .container .ol1 {
     padding-bottom: 10px;
+  }
+
+  .container .p4 {
+    padding-left: 12px;
+  }
+
+  .container .ol1,
+  .container .ul1 {
+    padding-left: 24px;
+  }
+
+  .container li {
+    list-style: disc;
+    padding-bottom: 5px;
   }
 </style>
