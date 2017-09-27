@@ -27,6 +27,7 @@
             this.title = res.data.data.title || ''
             this.date = moment(res.data.data.updateTime || new Date()).format('YYYY-MM-DD HH:mm')
             this.content = res.data.data.content || ''
+            document.title = this.title
           }
         })
     }
