@@ -1,5 +1,5 @@
 <template>
-  <div id="article">
+  <div id="article" v-title="' '">
     <div class="container">
       <h1 class="title">{{title}}</h1>
       <p class="date">{{date}}</p>
@@ -27,7 +27,6 @@
             this.title = res.data.data.title || ''
             this.date = moment(res.data.data.updateTime || new Date()).format('YYYY-MM-DD HH:mm')
             this.content = res.data.data.content || ''
-            document.title = this.title
           }
         })
     }
