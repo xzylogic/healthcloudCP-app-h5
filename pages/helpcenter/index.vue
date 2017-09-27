@@ -1,5 +1,5 @@
 <template>
-  <div id="helpcenter">
+  <div id="helpcenter" v-title="'帮助中心'">
     <div class="wrap">
       <ul class="accordion">
         <li v-for="item in list" :key="item.title">
