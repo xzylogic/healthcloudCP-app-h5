@@ -17,7 +17,8 @@
   "dependencies": {
     "axios": "^0.16.2",
     "moment": "^2.18.1",
-    "nuxt": "^1.0.0-rc8"
+    "nuxt": "^1.0.0-rc8",
+    "weixin-js-sdk": "^1.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

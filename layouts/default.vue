@@ -5,14 +5,17 @@
 </template>
 
 <style>
-  *, *:before, *:after {
+  *,
+  *:before,
+  *:after {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
   }
 
-  ul, li {
-    list-style: none;
+  ul,
+  ol {
+    margin-left: 1.2em;
   }
 
   .clear:before,
