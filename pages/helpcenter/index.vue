@@ -42,10 +42,15 @@
     height: 100vh;
     background: #f4f4f4;
     overflow: auto;
+    ul,
+    li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
   }
 
-  .accordion {
-  }
+  .accordion {}
 
   .question {
     width: 100%;
