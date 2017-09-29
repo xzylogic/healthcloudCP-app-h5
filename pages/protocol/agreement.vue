@@ -552,11 +552,6 @@
     padding-left: 12px;
   }
 
-  .container .ol1,
-  .container .ul1 {
-    padding-left: 24px;
-  }
-
   .container li {
     list-style: disc;
     padding-bottom: 5px;
