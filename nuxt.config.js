@@ -16,6 +16,7 @@ module.exports = {
   router: {
     base: '/healthcloudcp-app-h5/'
   },
+  cache: true,
   env: {
     baseUrl: 'http://10.1.64.194/changping-internal'
   },
@@ -28,6 +29,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    vendor: ['axios'],
     /*
     ** Run ESLINT on save
     */
