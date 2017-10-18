@@ -20,37 +20,54 @@
 </template>
 
 <script>
+  import axios from '~/plugins/axios'
   import * as moment from 'moment'
 
   export default {
     name: 'article',
-    data () {
-      return {
-        title: '',
-        date: '',
-        content: '',
-        errMsg: ''
-      }
-    },
-    created () {
-      this.$http.get(`${this.$baseUrl}/api/article/info?id=${this.$route.params.id}&source=h5`)
-        .then(res => {
+    asyncData ({ params, error }) {
+      return axios.get(`/api/article/info?id=${params.id}&source=h5`)
+        .then((res) => {
           if (res && res.data && res.data.code === 0 && res.data.data) {
-            this.errMsg = ''
-            this.title = res.data.data.title || ''
-            this.date = moment(res.data.data.updateTime || new Date()).format('YYYY-MM-DD HH:mm')
-            this.content = res.data.data.content || ''
+            return {
+              errMsg: false,
+              title: res.data.data.title || '',
+              date: moment(res.data.data.updateTime || new Date()).format('YYYY-MM-DD HH:mm'),
+              content: res.data.data.content || ''
+            }
           } else {
             console.log(res)
-            this.content = ''
-            this.errMsg = '啊哦～请求失败！'
+            return {
+              errMsg: true,
+              title: '',
+              date: '',
+              content: ''
+            }
           }
-        }, err => {
-          console.log(err)
-          this.content = ''
-          this.errMsg = '啊哦～请求失败！'
+        })
+        .catch((e) => {
+          error({ statusCode: 404, message: 'Article not found' })
         })
     }
+    // beforeCreate () {
+    //   axios.get(`${this.$baseUrl}/api/article/info?id=${this.$route.params.id}&source=h5`)
+    //     .then(res => {
+    //       if (res && res.data && res.data.code === 0 && res.data.data) {
+    //         this.errMsg = ''
+    //         this.title = res.data.data.title || ''
+    //         this.date = moment(res.data.data.updateTime || new Date()).format('YYYY-MM-DD HH:mm')
+    //         this.content = res.data.data.content || ''
+    //       } else {
+    //         console.log(res)
+    //         this.content = ''
+    //         this.errMsg = '啊哦～请求失败！'
+    //       }
+    //     }, err => {
+    //       console.log(err)
+    //       this.content = ''
+    //       this.errMsg = '啊哦～请求失败！'
+    //     })
+    // }
   }
 </script>
 
