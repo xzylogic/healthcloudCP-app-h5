@@ -1,5 +1,5 @@
 <template>
-  <div id="agreement" v-title="'用户协议'" class="container">
+  <div id="agreement" class="container">
     <h1 class="title">“北京昌平健康云管理平台”用户服务协议</h1>
     <p class="p2">
       <span class="s3">
@@ -522,7 +522,12 @@
 
 <script>
   export default {
-    name: 'agreement'
+    name: 'agreement',
+    head () {
+      return {
+        title: '用户协议'
+      }
+    }
   }
 </script>
 

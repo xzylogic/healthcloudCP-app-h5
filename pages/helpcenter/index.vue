@@ -1,5 +1,5 @@
 <template>
-  <div id="helpcenter" v-title="'帮助中心'">
+  <div id="helpcenter">
     <div class="wrap">
       <ul class="accordion">
         <li v-for="item in list" :key="item.title">
@@ -29,6 +29,11 @@
     methods: {
       toggle (item) {
         item.open = !item.open
+      }
+    },
+    head () {
+      return {
+        title: '帮助中心'
       }
     }
   }

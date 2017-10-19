@@ -7,7 +7,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: '昌平健康云', content: '昌平健康云' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -20,7 +20,6 @@ module.exports = {
   env: {
     baseUrl: 'http://10.1.64.195/changping-internal'
   },
-  plugins: ['~plugins/axios'],
   /*
   ** Customize the progress-bar color
   */

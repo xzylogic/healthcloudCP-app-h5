@@ -1,5 +1,5 @@
 <template>
-  <div id="filenotice" v-title="'建档须知'" class="notice-container">
+  <div id="filenotice" class="notice-container">
     <div class="notice-title">
       <span class="t-s1">建</span>
       <span class="t-s2">档</span>
@@ -51,7 +51,12 @@
 
 <script>
   export default {
-    name: 'filenotice'
+    name: 'filenotice',
+    head () {
+      return {
+        title: '建档须知'
+      }
+    }
   }
 </script>
 
