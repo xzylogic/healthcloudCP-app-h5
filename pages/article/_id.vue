@@ -1,6 +1,6 @@
 <template>
-  <div id="article" v-title="' '">
-    <div v-show="!content&&!errMsg">
+  <div id="article">
+    <div v-show="!content">
       <div class="error-content">
         <img src="~/assets/loading.gif" alt="Loading..." width="200">
       </div>
@@ -9,12 +9,6 @@
       <h1 class="title">{{title}}</h1>
       <p class="date">{{date}}</p>
       <div v-html="content"></div>
-    </div>
-    <div v-show="!content&&errMsg">
-      <div class="error-content">
-        <img src="~/assets/neterror.png" alt="NETWORK ERROR" width="100">
-        <p>暂无网络</p>
-      </div>
     </div>
   </div>
 </template>
@@ -30,44 +24,24 @@
         .then((res) => {
           if (res && res.data && res.data.code === 0 && res.data.data) {
             return {
-              errMsg: false,
               title: res.data.data.title || '',
               date: moment(res.data.data.updateTime || new Date()).format('YYYY-MM-DD HH:mm'),
               content: res.data.data.content || ''
             }
           } else {
             console.log(res)
-            return {
-              errMsg: true,
-              title: '',
-              date: '',
-              content: ''
-            }
+            error({ msg: '访问错误' })
           }
         })
         .catch((e) => {
-          error({ statusCode: 404, message: 'Article not found' })
+          error({ msg: '暂无网络' })
         })
+    },
+    head () {
+      return {
+        title: ''
+      }
     }
-    // beforeCreate () {
-    //   axios.get(`${this.$baseUrl}/api/article/info?id=${this.$route.params.id}&source=h5`)
-    //     .then(res => {
-    //       if (res && res.data && res.data.code === 0 && res.data.data) {
-    //         this.errMsg = ''
-    //         this.title = res.data.data.title || ''
-    //         this.date = moment(res.data.data.updateTime || new Date()).format('YYYY-MM-DD HH:mm')
-    //         this.content = res.data.data.content || ''
-    //       } else {
-    //         console.log(res)
-    //         this.content = ''
-    //         this.errMsg = '啊哦～请求失败！'
-    //       }
-    //     }, err => {
-    //       console.log(err)
-    //       this.content = ''
-    //       this.errMsg = '啊哦～请求失败！'
-    //     })
-    // }
   }
 </script>
 
