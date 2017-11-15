@@ -1,5 +1,5 @@
 <template>
-  <div id="newnotice" class="notice-container">
+  <div id="newnoticejm" class="notice-container">
     <div class="notice-title">
       <span class="t-s1">新</span>
       <span class="t-s2">生</span>
@@ -67,7 +67,7 @@
 
 <script>
   export default {
-    name: 'newnotice',
+    name: 'newnoticejm',
     head () {
       return {
         title: '新生儿办本须知'
