@@ -14,11 +14,11 @@ module.exports = {
     ]
   },
   router: {
-    base: '/healthcloudcp-app-h5-te/'
+    base: '/healthcloudcp-app-h5/'
   },
   cache: true,
   env: {
-    baseUrl: 'http://10.1.64.195/changping-internal'
+    baseUrl: 'http://61.50.129.55/changping-internal'
   },
   /*
   ** Customize the progress-bar color
