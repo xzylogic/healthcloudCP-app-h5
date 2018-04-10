@@ -18,7 +18,7 @@ module.exports = {
   },
   cache: true,
   env: {
-    baseUrl: 'http://10.1.64.194/changping-internal'
+    baseUrl: 'http://10.1.64.194'
   },
   /*
   ** Customize the progress-bar color

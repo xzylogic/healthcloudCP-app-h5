@@ -20,7 +20,7 @@
   export default {
     name: 'article',
     asyncData ({ params, error }) {
-      return axios.get(`/api/article/info?id=${params.id}&source=h5`)
+      return axios.get(`/changping-internal/api/article/info?id=${params.id}&source=h5`)
         .then((res) => {
           if (res && res.data && res.data.code === 0 && res.data.data) {
             return {
