@@ -8,7 +8,9 @@
     <div class="wrap" v-show="content">
       <ul>
         <li v-for="item in content" :key="item.id">
-          <div class="wrap_list" @click="locationTo(item.id)">
+          <nuxt-link :to="{ name: 'version-id', params: { id: item.id } }">
+          <div class="wrap_list">
+          <!-- <div class="wrap_list" @click="locationTo(item.id)"> -->
             <div class="list_left">
               <p class="title">{{item.title}}</p>
               <p class="date">{{item.date}}</p>
@@ -17,6 +19,7 @@
               <i class="fa fa-angle-right" aria-hidden="true"></i>
             </div>
           </div>
+          </nuxt-link>
         </li>
       </ul>
       <p class="more" @click="loadmore(more, content)" v-if="more!==0">加载更多</p>
