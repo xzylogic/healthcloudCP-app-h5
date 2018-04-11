@@ -8,7 +8,7 @@
     <div class="container" v-show="title">
       <h1 class="title">{{title}}</h1>
       <div class="content">
-        <pre>{{publishContent}}</pre>
+        <pre>{{content}}</pre>
       </div>
     </div>
   </div>
@@ -19,20 +19,23 @@
 
   export default {
     name: 'versiondetail',
-    asyncData ({ params, error }) {
+    computed: {
+      title () {
+        return this.$store.state.versionObj.title
+      },
+      content () {
+        return this.$store.state.versionObj.content
+      }
+    },
+    fetch ({ store, params, error }) {
       return axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoById?id=${params.id}&source=h5`)
         .then(res => res.data)
         .then((res) => {
           if (res && res.code === 0 && res.data) {
-            return {
+            store.commit('updateVersionObj', {
               title: '昌平健康云v1.1.1更新',
-              productType: res.data.productType,
-              productCategory: res.data.productCategory,
-              versionNum: res.data.versionNum,
-              appIcon: res.data.appIcon,
-              publishTime: res.data.publishTime,
-              publishContent: res.data.publishContent
-            }
+              content: res.data.publishContent
+            })
           } else {
             console.log(res)
             error({ msg: '访问错误' })

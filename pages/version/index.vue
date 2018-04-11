@@ -32,7 +32,18 @@
 
   export default {
     name: 'version',
-    async asyncData ({ req, error }) {
+    computed: {
+      type () {
+        return this.$store.state.version.type
+      },
+      content () {
+        return this.$store.state.version.content
+      },
+      more () {
+        return this.$store.state.version.more
+      }
+    },
+    fetch ({ store, req, error }) {
       const userAgent = req.headers['user-agent']
       let type = ''
       if (/Android/i.test(userAgent)) {
@@ -44,13 +55,12 @@
       return axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoList?type=${type}`)
         .then(res => res.data)
         .then((res) => {
-          console.log(res)
           if (res && res.data && res.code === 0 && res.data.content) {
-            return {
+            store.commit('updateVersion', {
               type: type,
               content: res.data.content,
               more: res.data.more ? res.data.more_params.flag : 0
-            }
+            })
           } else {
             console.log(res)
             error({ msg: '访问错误' })
