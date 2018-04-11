@@ -49,6 +49,9 @@
       if (this.scrollTop) {
         this.$refs.wrap.scrollTop = this.scrollTop
       }
+      document.body.addEventListener('touchmove', function (evt) {
+        evt.preventDefault()
+      })
     },
     computed: {
       scrollTop () {

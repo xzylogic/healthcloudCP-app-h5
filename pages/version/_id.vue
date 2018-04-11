@@ -61,9 +61,11 @@
 
 <style scoped lang="scss">
   .container {
+    height: 100vh;
     max-width: 768px;
     padding: 15px;
     margin: 0 auto;
+    overflow: scroll;
   }
 
   .title {
