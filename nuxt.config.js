@@ -18,8 +18,9 @@ module.exports = {
   },
   cache: true,
   env: {
-    baseUrl: 'http://10.1.64.194'
+    baseUrl: 'http://10.1.64.194/changping-internal'
   },
+  plugins: [ ],
   /*
    ** Customize the progress-bar color
    */
@@ -32,7 +33,7 @@ module.exports = {
     /*
      ** Run ESLINT on save
      */
-    extend(config, ctx) {
+    extend (config, ctx) {
       if (ctx.dev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',

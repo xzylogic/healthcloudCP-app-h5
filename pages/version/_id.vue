@@ -3,7 +3,7 @@
     <div v-show="!title">
       <div class="error-content">
         <img src="~/assets/loading.gif" alt="Loading..." width="200">
-        <p>{{errMsg}}</p>
+        <p>{{errorMsg}}</p>
       </div>
     </div>
     <div class="container" v-show="title">
@@ -20,21 +20,19 @@
 
   export default {
     name: 'versiondetail',
-    data () {
-      return {
-        errMsg: ''
-      }
-    },
     computed: {
       title () {
         return this.$store.state.versionObj.title
       },
       content () {
         return this.$store.state.versionObj.content
+      },
+      errorMsg () {
+        return this.$store.state.versionObj.errorMsg
       }
     },
-    fetch ({ store, params, error }) {
-      return axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoById?id=${params.id}&source=h5`)
+    fetch ({ store, params, error, env }) {
+      return axios.get(`${env.baseUrl}/api/findVersionInfoById?id=${params.id}&source=h5`)
         .then(res => res.data)
         .then((res) => {
           if (res && res.code === 0 && res.data) {
@@ -43,12 +41,11 @@
               content: res.data.publishContent
             })
           } else {
-            this.errMsg = res.msg || '获取数据错误'
+            store.commit('updateErrorMsg', res.msg || '数据错误')
           }
         })
         .catch((e) => {
-          console.log(e)
-          this.errMsg = '网络错误'
+          store.commit('updateErrorMsg', '网络错误')
         })
     },
     head () {

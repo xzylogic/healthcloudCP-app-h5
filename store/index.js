@@ -9,11 +9,13 @@ const store = () => new Vuex.Store({
       scrollTop: 0,
       type: '',
       content: '',
-      more: 0
+      more: 0,
+      errorMsg: ''
     },
     versionObj: {
       title: '',
-      content: ''
+      content: '',
+      errorMsg: ''
     }
   },
   mutations: {
@@ -31,8 +33,15 @@ const store = () => new Vuex.Store({
     updateContent (state, newContent) {
       this.state.version.content.push(...newContent)
     },
+    updateVersionError (state, newErrorMsg) {
+      this.state.version.errorMsg = newErrorMsg
+    },
     updateVersionObj (state, newVersionObj) {
-      this.state.versionObj = newVersionObj
+      this.state.versionObj.title = newVersionObj.title
+      this.state.versionObj.content = newVersionObj.content
+    },
+    updateErrorMsg (state, newErrorMsg) {
+      this.state.versionObj.errorMsg = newErrorMsg
     }
   }
 })

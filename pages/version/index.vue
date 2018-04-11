@@ -3,6 +3,7 @@
     <div v-show="!content">
       <div class="error-content">
         <img src="~/assets/loading.gif" alt="Loading..." width="200">
+        <p>{{errorMsg}}</p>
       </div>
     </div>
     <div class="wrap" v-show="content"
@@ -10,26 +11,30 @@
       @touchmove="touchMove($event)" 
       @touchend="touchEnd($event)"
       @scroll="onScroll($event)" ref="wrap">
-          <ul>
-            <li v-for="item in content" :key="item.id">
-              <nuxt-link :to="{ name: 'version-id', params: { id: item.id } }">
-              <div class="wrap_list">
-              <!-- <div class="wrap_list" @click="locationTo(item.id)"> -->
-                <div class="list_left">
-                  <p class="title">{{item.title}}</p>
-                  <p class="date">{{item.date}}</p>
-                </div>
-                <div class="list_right">
-                  <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </div>
+        <ul>
+          <li v-for="item in content" :key="item.id">
+            <nuxt-link :to="{ name: 'version-id', params: { id: item.id } }">
+            <div class="wrap_list">
+              <div class="list_left">
+                <p class="title">{{item.title}}</p>
+                <p class="date">{{item.date}}</p>
               </div>
-              </nuxt-link>
-            </li>
-          </ul>
-          <p class="more" v-if="more!==0">
-            <span class="spinner-loader" v-show="moreMsg=='加载更多...'">Loading…</span>
+              <div class="list_right">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </div>
+            </div>
+            </nuxt-link>
+          </li>
+        </ul>
+        <div class="more-container" :style="{ height: height + 'px' }">
+          <div class="more" v-show="more!==0">
+            <span class="spinner-loader">Loading…</span>
             <span class="more_text">{{moreMsg}}</span>
-          </p>
+          </div>
+          <div class="more" v-show="more==0">
+            <span class="more_text">没有更多了</span>
+          </div>
+        </div>
     </div>
   </div>
 </template>
@@ -44,17 +49,14 @@
         moreMsg: '加载更多...',
         startY: 0,
         endY: 0,
-        maxTop: 0
+        maxTop: 0,
+        height: 0
       }
     },
     mounted () {
-      console.log(this.$refs.wrap)
       if (this.scrollTop) {
         this.$refs.wrap.scrollTop = this.scrollTop
       }
-      document.body.addEventListener('touchmove', function (evt) {
-        evt.preventDefault()
-      })
     },
     computed: {
       scrollTop () {
@@ -68,10 +70,12 @@
       },
       more () {
         return this.$store.state.version.more
+      },
+      errorMsg () {
+        return this.$store.state.version.errorMsg
       }
     },
-    fetch ({ store, req, error }) {
-      console.log(store.state.version)
+    fetch ({ store, req, error, env }) {
       if (!store.state.version.type) {
         const userAgent = req.headers['user-agent']
         let type = ''
@@ -81,7 +85,7 @@
         if (/iPhone|iPad|iPod/i.test(userAgent)) {
           type = 'IOS'
         }
-        return axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoList?type=${type}`)
+        return axios.get(`${env.baseUrl}/api/findVersionInfoList?type=${type}`)
           .then(res => res.data)
           .then((res) => {
             if (res && res.data && res.code === 0 && res.data.content) {
@@ -91,30 +95,30 @@
                 more: res.data.more ? res.data.more_params.flag : 0
               })
             } else {
-              console.log(res)
-              error({ msg: '访问错误' })
+              store.commit('updateVersionError', res.msg || '数据错误')
             }
           })
           .catch((e) => {
-            error({ msg: '暂无网络' })
+            store.commit('updateVersionError', '网络错误')
           })
       }
     },
     methods: {
-      locationTo (id) {
-        window.location.href = `/healthcloudcp-app-h5/version/${id}`
-      },
       touchStart (event) {
+        if (this.scrollTop >= this.maxTop) {
+          this.height = 100
+        }
         this.startY = event.touches[0].pageY
       },
       touchMove (event) {
-        if (this.scrollTop === this.maxTop) {
-          // this.moreMsg = 'loading'
-        }
+        this.endY = event.changedTouches[0].pageY
       },
       touchEnd (event) {
+        if (this.scrollTop >= this.maxTop) {
+          this.height = 0
+        }
         this.endY = event.changedTouches[0].pageY
-        if (this.more && this.scrollTop > 0 && this.scrollTop === this.maxTop && this.endY < this.startY) {
+        if (this.more && this.scrollTop > 0 && this.scrollTop >= this.maxTop && this.endY < this.startY) {
           console.log('load')
           this.loadmore()
         }
@@ -124,7 +128,7 @@
         this.maxTop = event.target.scrollHeight - event.target.clientHeight
       },
       loadmore () {
-        axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoList?type=${this.type}&flag=${this.more}`)
+        axios.get(`/api/findVersionInfoList?type=${this.type}&flag=${this.more}`)
           .then(res => res.data)
           .then((res) => {
             if (res && res.data && res.code === 0 && res.data.content) {
@@ -132,12 +136,12 @@
               this.$store.commit('updateContent', res.data.content)
               this.moreMsg = '加载更多...'
             } else {
-              // this.moreMsg = '加载失败'
+              this.moreMsg = '数据出错，重新加载中...'
             }
           })
           .catch(err => {
             console.log(err)
-            // this.moreMsg = '网络出错'
+            this.moreMsg = '网络出错，重新加载中...'
           })
       }
     },
@@ -200,7 +204,18 @@
     }
   }
 
+  .more-container {
+    position: relative;
+    overflow: hidden;
+    // height: 100px;
+    background: #fff;
+    // transition: height 1s linear 0;
+  }
+
   .more {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
     padding: 15px;
     color: #999;
     font-size: 14px;
