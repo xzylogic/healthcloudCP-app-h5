@@ -1,7 +1,7 @@
 module.exports = {
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: '',
     meta: [
@@ -21,17 +21,17 @@ module.exports = {
     baseUrl: 'http://10.1.64.194'
   },
   /*
-  ** Customize the progress-bar color
-  */
+   ** Customize the progress-bar color
+   */
   loading: { color: '#3B8070' },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     vendor: ['axios'],
     /*
-    ** Run ESLINT on save
-    */
+     ** Run ESLINT on save
+     */
     extend(config, ctx) {
       if (ctx.dev && ctx.isClient) {
         config.module.rules.push({

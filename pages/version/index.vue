@@ -5,24 +5,28 @@
         <img src="~/assets/loading.gif" alt="Loading..." width="200">
       </div>
     </div>
-    <div class="wrap" v-show="content">
-      <ul>
-        <li v-for="item in content" :key="item.id">
-          <nuxt-link :to="{ name: 'version-id', params: { id: item.id } }">
-          <div class="wrap_list">
-          <!-- <div class="wrap_list" @click="locationTo(item.id)"> -->
-            <div class="list_left">
-              <p class="title">{{item.title}}</p>
-              <p class="date">{{item.date}}</p>
-            </div>
-            <div class="list_right">
-              <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </div>
-          </div>
-          </nuxt-link>
-        </li>
-      </ul>
-      <p class="more" @click="loadmore()" v-if="more!==0">加载更多</p>
+    <div class="wrap" v-show="content"
+      @touchstart="touchStart($event)"
+      @touchmove="touchMove($event)" 
+      @touchend="touchEnd($event)"
+      @scroll="onScroll($event)" ref="wrap">
+          <ul>
+            <li v-for="item in content" :key="item.id">
+              <nuxt-link :to="{ name: 'version-id', params: { id: item.id } }">
+              <div class="wrap_list">
+              <!-- <div class="wrap_list" @click="locationTo(item.id)"> -->
+                <div class="list_left">
+                  <p class="title">{{item.title}}</p>
+                  <p class="date">{{item.date}}</p>
+                </div>
+                <div class="list_right">
+                  <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </div>
+              </div>
+              </nuxt-link>
+            </li>
+          </ul>
+          <p class="more" v-if="more!==0">{{moreMsg}}</p>
     </div>
   </div>
 </template>
@@ -32,7 +36,24 @@
 
   export default {
     name: 'version',
+    data () {
+      return {
+        moreMsg: '加载更多',
+        startY: 0,
+        endY: 0,
+        maxTop: 0
+      }
+    },
+    mounted () {
+      console.log(this.$refs.wrap)
+      if (this.scrollTop) {
+        this.$refs.wrap.scrollTop = this.scrollTop
+      }
+    },
     computed: {
+      scrollTop () {
+        return this.$store.state.version.scrollTop
+      },
       type () {
         return this.$store.state.version.type
       },
@@ -77,15 +98,40 @@
       locationTo (id) {
         window.location.href = `/healthcloudcp-app-h5/version/${id}`
       },
-      loadmore (more, content) {
-        console.log(this.more)
+      touchStart (event) {
+        this.startY = event.touches[0].pageY
+      },
+      touchMove (event) {
+        if (this.scrollTop === this.maxTop) {
+          // this.moreMsg = 'loading'
+        }
+      },
+      touchEnd (event) {
+        this.endY = event.changedTouches[0].pageY
+        if (this.more && this.scrollTop > 0 && this.scrollTop === this.maxTop && this.endY < this.startY) {
+          console.log('load')
+          this.loadmore()
+        }
+      },
+      onScroll (event) {
+        this.$store.commit('updateScroll', event.target.scrollTop)
+        this.maxTop = event.target.scrollHeight - event.target.clientHeight
+      },
+      loadmore () {
         axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoList?type=${this.type}&flag=${this.more}`)
           .then(res => res.data)
           .then((res) => {
             if (res && res.data && res.code === 0 && res.data.content) {
               this.$store.commit('updateMore', res.data.more ? res.data.more_params.flag : 0)
               this.$store.commit('updateContent', res.data.content)
+              this.moreMsg = '加载更多'
+            } else {
+              this.moreMsg = '加载失败'
             }
+          })
+          .catch(err => {
+            console.log(err)
+            this.moreMsg = '网络出错'
           })
       }
     },
@@ -105,6 +151,7 @@
     height: 100vh;
     background: #f4f4f4;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     ul,
     li {
       list-style: none;
