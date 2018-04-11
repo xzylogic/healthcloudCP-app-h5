@@ -21,6 +21,12 @@ const store = () => new Vuex.Store({
       this.state.version.content = newVersion.content
       this.state.version.more = newVersion.more
     },
+    updateMore (state, newMore) {
+      this.state.version.more = newMore
+    },
+    updateContent (state, newContent) {
+      this.state.version.content.push(...newContent)
+    },
     updateVersionObj (state, newVersionObj) {
       this.state.versionObj = newVersionObj
     }

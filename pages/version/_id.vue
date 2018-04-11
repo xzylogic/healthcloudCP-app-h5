@@ -3,6 +3,7 @@
     <div v-show="!title">
       <div class="error-content">
         <img src="~/assets/loading.gif" alt="Loading..." width="200">
+        <p>{{errMsg}}</p>
       </div>
     </div>
     <div class="container" v-show="title">
@@ -19,6 +20,11 @@
 
   export default {
     name: 'versiondetail',
+    data () {
+      return {
+        errMsg: ''
+      }
+    },
     computed: {
       title () {
         return this.$store.state.versionObj.title
@@ -37,12 +43,12 @@
               content: res.data.publishContent
             })
           } else {
-            console.log(res)
-            error({ msg: '访问错误' })
+            this.errMsg = res.msg || '获取数据错误'
           }
         })
         .catch((e) => {
-          error({ msg: '暂无网络' })
+          console.log(e)
+          this.errMsg = '网络错误'
         })
     },
     head () {

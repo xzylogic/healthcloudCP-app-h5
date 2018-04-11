@@ -22,7 +22,7 @@
           </nuxt-link>
         </li>
       </ul>
-      <p class="more" @click="loadmore(more, content)" v-if="more!==0">加载更多</p>
+      <p class="more" @click="loadmore()" v-if="more!==0">加载更多</p>
     </div>
   </div>
 </template>
@@ -44,44 +44,47 @@
       }
     },
     fetch ({ store, req, error }) {
-      const userAgent = req.headers['user-agent']
-      let type = ''
-      if (/Android/i.test(userAgent)) {
-        type = 'Android'
+      console.log(store.state.version)
+      if (!store.state.version.type) {
+        const userAgent = req.headers['user-agent']
+        let type = ''
+        if (/Android/i.test(userAgent)) {
+          type = 'Android'
+        }
+        if (/iPhone|iPad|iPod/i.test(userAgent)) {
+          type = 'IOS'
+        }
+        return axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoList?type=${type}`)
+          .then(res => res.data)
+          .then((res) => {
+            if (res && res.data && res.code === 0 && res.data.content) {
+              store.commit('updateVersion', {
+                type: type,
+                content: res.data.content,
+                more: res.data.more ? res.data.more_params.flag : 0
+              })
+            } else {
+              console.log(res)
+              error({ msg: '访问错误' })
+            }
+          })
+          .catch((e) => {
+            error({ msg: '暂无网络' })
+          })
       }
-      if (/iPhone|iPad|iPod/i.test(userAgent)) {
-        type = 'IOS'
-      }
-      return axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoList?type=${type}`)
-        .then(res => res.data)
-        .then((res) => {
-          if (res && res.data && res.code === 0 && res.data.content) {
-            store.commit('updateVersion', {
-              type: type,
-              content: res.data.content,
-              more: res.data.more ? res.data.more_params.flag : 0
-            })
-          } else {
-            console.log(res)
-            error({ msg: '访问错误' })
-          }
-        })
-        .catch((e) => {
-          error({ msg: '暂无网络' })
-        })
     },
     methods: {
       locationTo (id) {
         window.location.href = `/healthcloudcp-app-h5/version/${id}`
       },
       loadmore (more, content) {
-        console.log(more)
-        axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoList?type=${this.type}`)
+        console.log(this.more)
+        axios.get(`http://10.1.64.194/changping-user/api/version/findVersionInfoList?type=${this.type}&flag=${this.more}`)
           .then(res => res.data)
           .then((res) => {
             if (res && res.data && res.code === 0 && res.data.content) {
-              content.push(...res.data.content)
-              this.more = res.data.more ? res.data.more_params.flag : 0
+              this.$store.commit('updateMore', res.data.more ? res.data.more_params.flag : 0)
+              this.$store.commit('updateContent', res.data.content)
             }
           })
       }
