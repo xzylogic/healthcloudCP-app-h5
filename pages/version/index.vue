@@ -26,7 +26,10 @@
               </nuxt-link>
             </li>
           </ul>
-          <p class="more" v-if="more!==0">{{moreMsg}}</p>
+          <p class="more" v-if="more!==0">
+            <span class="spinner-loader" v-show="moreMsg=='加载更多...'">Loading…</span>
+            <span class="more_text">{{moreMsg}}</span>
+          </p>
     </div>
   </div>
 </template>
@@ -38,7 +41,7 @@
     name: 'version',
     data () {
       return {
-        moreMsg: '加载更多',
+        moreMsg: '加载更多...',
         startY: 0,
         endY: 0,
         maxTop: 0
@@ -127,14 +130,14 @@
             if (res && res.data && res.code === 0 && res.data.content) {
               this.$store.commit('updateMore', res.data.more ? res.data.more_params.flag : 0)
               this.$store.commit('updateContent', res.data.content)
-              this.moreMsg = '加载更多'
+              this.moreMsg = '加载更多...'
             } else {
-              this.moreMsg = '加载失败'
+              // this.moreMsg = '加载失败'
             }
           })
           .catch(err => {
             console.log(err)
-            this.moreMsg = '网络出错'
+            // this.moreMsg = '网络出错'
           })
       }
     },
@@ -210,5 +213,66 @@
     padding-top: 30%;
     text-align: center;
     color: #666;
+  }
+
+  @-moz-keyframes spinner-loader {
+    0% {
+      -moz-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -moz-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes spinner-loader {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes spinner-loader {
+    0% {
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    100% {
+      -moz-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
+  /* :not(:required) hides this rule from IE9 and below */
+  .spinner-loader:not(:required) {
+    animation: spinner-loader 1500ms infinite linear;
+    border-radius: 0.5em;
+    box-shadow: 
+      rgba(0, 0, 51, 0.3) 7px 0 0 0, 
+      rgba(0, 0, 51, 0.3) 5px 5px 0 0, 
+      rgba(0, 0, 51, 0.3) 0 7px 0 0, 
+      rgba(0, 0, 51, 0.3) -5px 5px 0 0, 
+      rgba(0, 0, 51, 0.3) -7px 0 0 0, 
+      rgba(0, 0, 51, 0.3) -5px -5px 0 0, 
+      rgba(0, 0, 51, 0.3) 0 -7px 0 0, 
+      rgba(0, 0, 51, 0.3) 5px -5px 0 0;
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    margin: 9px;
+    overflow: hidden;
+    text-indent: 100%;
+  }
+
+  .more_text {
+    margin-left: 10px;
+    position: relative;
+    top: -6px;
   }
 </style>
