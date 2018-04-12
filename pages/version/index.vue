@@ -105,18 +105,12 @@
     },
     methods: {
       touchStart (event) {
-        if (this.scrollTop >= this.maxTop) {
-          this.height = 100
-        }
         this.startY = event.touches[0].pageY
       },
       touchMove (event) {
         this.endY = event.changedTouches[0].pageY
       },
       touchEnd (event) {
-        if (this.scrollTop >= this.maxTop) {
-          this.height = 0
-        }
         this.endY = event.changedTouches[0].pageY
         if (this.more && this.scrollTop > 0 && this.scrollTop >= this.maxTop && this.endY < this.startY) {
           console.log('load')
