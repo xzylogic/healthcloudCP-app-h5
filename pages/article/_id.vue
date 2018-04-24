@@ -19,8 +19,8 @@
 
   export default {
     name: 'article',
-    asyncData ({ params, error }) {
-      return axios.get(`/api/article/info?id=${params.id}&source=h5`)
+    asyncData ({ params, error, env }) {
+      return axios.get(`${env.baseUrl}/api/article/info?id=${params.id}&source=h5`)
         .then((res) => {
           if (res && res.data && res.data.code === 0 && res.data.data) {
             return {
