@@ -73,4 +73,19 @@
     text-align: center;
     color: #666;
   }
+
+  .my_video {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56%;
+  }
+
+  .my_video iframe,
+  .my_video embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+  }
 </style>
