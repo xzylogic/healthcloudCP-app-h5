@@ -46,11 +46,11 @@
     name: 'version',
     data () {
       return {
-        moreMsg: '加载更多...',
+        moreMsg: '上拉加载更多...',
         startY: 0,
         endY: 0,
         maxTop: 0,
-        height: 0
+        height: 60
       }
     },
     mounted () {
@@ -128,14 +128,14 @@
             if (res && res.data && res.code === 0 && res.data.content) {
               this.$store.commit('updateMore', res.data.more ? res.data.more_params.flag : 0)
               this.$store.commit('updateContent', res.data.content)
-              this.moreMsg = '加载更多...'
+              this.moreMsg = '上拉加载更多...'
             } else {
-              this.moreMsg = '数据出错，重新加载中...'
+              this.moreMsg = '数据出错，上拉重新加载...'
             }
           })
           .catch(err => {
             console.log(err)
-            this.moreMsg = '网络出错，重新加载中...'
+            this.moreMsg = '网络出错，上拉重新加载...'
           })
       }
     },
