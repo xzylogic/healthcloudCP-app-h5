@@ -18,7 +18,7 @@ module.exports = {
   },
   cache: true,
   env: {
-    baseUrl: 'http://61.50.129.55/changping-internal'
+    baseUrl: 'http://cpwjwapp.bjchp.gov.cn/changping-internal'
   },
   plugins: [ ],
   /*
