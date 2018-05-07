@@ -37,7 +37,7 @@
         .then((res) => {
           if (res && res.code === 0 && res.data) {
             store.commit('updateVersionObj', {
-              title: '昌平健康云v1.1.1更新',
+              title: res.data.title,
               content: res.data.publishContent
             })
           } else {
